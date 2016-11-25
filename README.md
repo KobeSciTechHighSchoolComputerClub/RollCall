@@ -1,2 +1,2 @@
 # RollCall
-Roll Call management system
+Roll Call management system on Slack

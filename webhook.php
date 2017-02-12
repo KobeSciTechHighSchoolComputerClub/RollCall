@@ -3,7 +3,8 @@ if($_POST["user_name"] == "slackbot") {
     exit;
 }
 
-$db = new PDO("mysql:host=<your_host>;dbname=<your_db_name>;charset=utf8","<id>","<pw>");
+require "account_info.php";
+$db = new PDO("mysql:host=".$host.";dbname=".$dbname.";charset=utf8",$id,$pw);
 
 $sql = "CREATE TABLE IF NOT EXISTS `rollcall` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,

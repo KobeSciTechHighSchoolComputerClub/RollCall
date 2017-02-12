@@ -28,7 +28,8 @@ function replyInChannel($msg)
 $ary_text = keywordSplit($_POST['text']);
 
 if ($ary_text[0]) {
-	$db = new PDO("mysql:host=<your_host>;dbname=<your_db_name>;charset=utf8","<id>","<pw>");
+	require "account_info.php";
+	$db = new PDO("mysql:host=".$host.";dbname=".$dbname.";charset=utf8",$id,$pw);
 
 	if ($ary_text[0] == "list" && $ary_text[1] == "on") {
 		$str_date = substr($_POST['text'], strlen($ary_text[0])+strlen($ary_text[1])+2);
@@ -41,7 +42,7 @@ if ($ary_text[0]) {
 		$sql = sprintf("SELECT * FROM `rollcall` WHERE timestamp BETWEEN %d AND %d ORDER BY timestamp ASC",  $begin_time, $end_time);
 		$array = $db->query($sql);
 		$length = $array->rowCount();
-		$msg = "I saw ".$length." attendees on ".date("F jS", $begin_time).".\n```";
+		$msg = "There were ".$length." attendees on ".date("F jS", $begin_time).".\n```";
 		if ($length > 0) {
 			$cnt = 1;
 			foreach ($array as $row) {
@@ -63,8 +64,8 @@ if ($ary_text[0]) {
 		$begin_time = strtotime(date("Y-m-d", strtotime($str_date)));
 		$end_time = time();
 		
-		$msg = "I give you the attendance summary from ".date("F jS", $begin_time)." to now.\n>>>";
-		$sql = sprintf("SELECT user, COUNT(*) AS freq FROM `rollcall` WHERE timestamp BETWEEN %d AND %d GROUP BY user", $begin_time, $end_time);
+		$msg = "This is an attendance summary from ".date("F jS", $begin_time)." to now.\n>>>";
+		$sql = sprintf("SELECT user, COUNT(*) AS freq FROM `rollcall` WHERE timestamp BETWEEN %d AND %d GROUP BY user ORDER BY freq DESC", $begin_time, $end_time);
 		$array = $db->query($sql);
 		$length = $array->rowCount();
 		if ($length > 0) {

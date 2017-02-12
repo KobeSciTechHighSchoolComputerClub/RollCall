@@ -1,0 +1,16 @@
+{
+  "name": "RollCall",
+  "description": "Roll Call on slack",
+  "scripts": {
+  },
+  "env": {
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+
+  ]
+}
